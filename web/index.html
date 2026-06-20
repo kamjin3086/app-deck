@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AppDeck</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="mark" aria-hidden="true"></div>
+      <div>
+        <h1>AppDeck</h1>
+        <p>本机服务驾驶舱</p>
+      </div>
+    </div>
+    <label class="search-wrap">
+      <span>搜索</span>
+      <input id="search" type="search" placeholder="应用、端口、路径、来源">
+    </label>
+    <nav class="actions" aria-label="主要操作">
+      <button id="rescanBtn">重新扫描</button>
+      <button id="addAppBtn">添加应用</button>
+      <button id="addCatBtn">添加分组</button>
+      <button id="exportBtn">导出</button>
+      <label class="file-button">导入<input id="importInput" type="file" accept="application/json,.json"></label>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-live="polite">
+      <div>
+        <p class="eyebrow">Local service map</p>
+        <h2 id="summaryTitle">正在读取服务</h2>
+        <p id="summaryText">AppDeck 会扫描 ~/apps、Docker 和 systemd，再把你的手动整理保存下来。</p>
+      </div>
+      <div class="meters">
+        <div><strong id="runningCount">0</strong><span>运行中</span></div>
+        <div><strong id="totalCount">0</strong><span>入口</span></div>
+        <div><strong id="issueCount">0</strong><span>提示</span></div>
+      </div>
+    </section>
+
+    <section id="issues" class="issues" hidden></section>
+    <section id="deck" class="deck" aria-label="应用分组"></section>
+  </main>
+
+  <dialog id="appDialog">
+    <form id="appForm" method="dialog" class="dialog-body">
+      <h3 id="appDialogTitle">添加应用</h3>
+      <input type="hidden" id="editId">
+      <label>名称<input id="appName" required></label>
+      <label>地址<input id="appUrl" placeholder="http://localhost:8788"></label>
+      <label>说明<textarea id="appNote" rows="3"></textarea></label>
+      <label>路径<input id="appPath" placeholder="/home/kamjin/apps/example"></label>
+      <label>分组<select id="appCategory"></select></label>
+      <div class="dialog-actions">
+        <button type="button" id="cancelAppBtn">取消</button>
+        <button class="primary" type="submit">保存</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="settingsDialog">
+    <form id="settingsForm" method="dialog" class="dialog-body">
+      <h3>编辑分组</h3>
+      <label>标题<input id="prefsTitle"></label>
+      <label>Apps 根目录<input id="prefsAppsRoot"></label>
+      <p class="fineprint">扫描目录会在重新扫描后生效。默认只监听本机地址，不会暴露到局域网。</p>
+      <div class="dialog-actions">
+        <button type="button" id="cancelSettingsBtn">取消</button>
+        <button class="primary" type="submit">保存</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
