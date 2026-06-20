@@ -20,6 +20,7 @@ type Server struct {
 	mu         sync.Mutex
 	prefs      catalog.Preferences
 	scan       catalog.ScanResult
+	iconCache  map[string]cachedIcon
 }
 
 func New(configPath string, webFS fs.FS) (*Server, error) {
@@ -27,7 +28,7 @@ func New(configPath string, webFS fs.FS) (*Server, error) {
 	if err != nil {
 		return nil, err
 	}
-	s := &Server{configPath: configPath, webFS: webFS, prefs: prefs}
+	s := &Server{configPath: configPath, webFS: webFS, prefs: prefs, iconCache: map[string]cachedIcon{}}
 	s.scan = scanner.ScanAll(prefs.AppsRoot)
 	return s, nil
 }
@@ -39,6 +40,7 @@ func (s *Server) Handler() http.Handler {
 	mux.HandleFunc("POST /api/rescan", s.handleRescan)
 	mux.HandleFunc("GET /api/export", s.handleExport)
 	mux.HandleFunc("POST /api/import", s.handleImport)
+	mux.HandleFunc("GET /api/icon", s.handleIcon)
 	mux.HandleFunc("GET /api/healthz", func(w http.ResponseWriter, r *http.Request) {
 		writeJSON(w, http.StatusOK, map[string]string{"status": "ok", "app": "appdeck"})
 	})

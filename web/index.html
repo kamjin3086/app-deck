@@ -12,38 +12,42 @@
       <div class="mark" aria-hidden="true"></div>
       <div>
         <h1>AppDeck</h1>
-        <p>本机服务驾驶舱</p>
+        <p>Local launcher</p>
       </div>
     </div>
     <label class="search-wrap">
-      <span>搜索</span>
-      <input id="search" type="search" placeholder="应用、端口、路径、来源">
+      <span aria-hidden="true">/</span>
+      <input id="search" type="search" placeholder="搜索应用、端口或路径">
     </label>
     <nav class="actions" aria-label="主要操作">
-      <button id="rescanBtn">重新扫描</button>
-      <button id="addAppBtn">添加应用</button>
-      <button id="addCatBtn">添加分组</button>
+      <button id="rescanBtn">扫描</button>
+      <button id="addAppBtn">添加</button>
+      <button id="addCatBtn">分组</button>
       <button id="exportBtn">导出</button>
       <label class="file-button">导入<input id="importInput" type="file" accept="application/json,.json"></label>
     </nav>
   </header>
 
-  <main>
-    <section class="hero" aria-live="polite">
-      <div>
-        <p class="eyebrow">Local service map</p>
-        <h2 id="summaryTitle">正在读取服务</h2>
-        <p id="summaryText">AppDeck 会扫描 ~/apps、Docker 和 systemd，再把你的手动整理保存下来。</p>
+  <main class="shell">
+    <aside class="sidebar" aria-label="应用分组">
+      <div class="sidebar-head">
+        <span>分组</span>
+        <button id="showAllBtn" class="quiet">全部</button>
       </div>
-      <div class="meters">
-        <div><strong id="runningCount">0</strong><span>运行中</span></div>
-        <div><strong id="totalCount">0</strong><span>入口</span></div>
-        <div><strong id="issueCount">0</strong><span>提示</span></div>
-      </div>
-    </section>
+      <nav id="categoryNav" class="category-nav"></nav>
+    </aside>
 
-    <section id="issues" class="issues" hidden></section>
-    <section id="deck" class="deck" aria-label="应用分组"></section>
+    <section class="workspace">
+      <div class="workspace-head" aria-live="polite">
+        <div>
+          <h2 id="pageTitle">AppDeck</h2>
+          <p id="resultMeta">正在读取本机入口</p>
+        </div>
+        <section id="issues" class="issues" hidden></section>
+      </div>
+      <section id="recentColumn" class="recent-dock" aria-label="最近使用"></section>
+      <section id="deck" class="deck" aria-label="应用入口"></section>
+    </section>
   </main>
 
   <dialog id="appDialog">
